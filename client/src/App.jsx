@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import Navbar from './components/Navbar';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from './components/Home';
+import Calendar from './components/Calendar';
+import Trash from './components/Trash';
+import Archive from './components/Archive';
 import About from './components/About';
 import NoteState from './context/notes/NoteState';
 import Alert from './components/Alert';
@@ -22,10 +24,12 @@ export default function App() {
   return (
     <NoteState>
       <BrowserRouter>
-        <Navbar />
         <Alert alert={alert} />
         <Routes>
           <Route path='/' element={<Home showAlert={showAlert} />} />
+          <Route path='/calendar' element={<Calendar showAlert={showAlert} />} />
+          <Route path='/trash' element={<Trash showAlert={showAlert} />} />
+          <Route path='/archive' element={<Archive showAlert={showAlert} />} />
           <Route path='/about' element={<About />} />
           <Route path='/login' element={<Login showAlert={showAlert} />} />
           <Route path='/signup' element={<Signup showAlert={showAlert} />} />

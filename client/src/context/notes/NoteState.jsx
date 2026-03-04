@@ -2,7 +2,7 @@ import { useState } from "react";
 import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
-    const host = "http://localhost:5555"
+    const host = "http://localhost:8080"
     const notesInitials = [];
     const [notes, setNotes] = useState(notesInitials)
 
@@ -30,8 +30,9 @@ const NoteState = (props) => {
             },
             body: JSON.stringify({ title, description, tag })
         });
-        const note = await response.json();
-        setNotes(notes.concat(note));
+        const data = await response.json();
+        const savedNote = data.saveNotes || data;
+        setNotes(notes.concat(savedNote));
     }
 
     // Delete Note

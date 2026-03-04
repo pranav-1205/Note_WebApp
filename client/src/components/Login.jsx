@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+import logo from "../assets/notemania-logo.png";
 
 export default function Login(props) {
     const [credentials, setCredentials] = useState({ email: "", password: "" })
@@ -7,7 +8,7 @@ export default function Login(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("http://localhost:5555/api/auth/login", {
+        const response = await fetch("http://localhost:8080/api/auth/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -18,6 +19,7 @@ export default function Login(props) {
         // console.log(json);
         if (json.success) {
             localStorage.setItem('token', json.authToken);
+            localStorage.setItem('userEmail', credentials.email);
             navigate('/')
             props.showAlert("Logged in Successfully", "teal")
         }
@@ -31,42 +33,68 @@ export default function Login(props) {
     }
 
     return (
-        <main className=" bg-gray-900">
-            <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-                <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
-                    <h1 className="text-3xl font-semibold text-center text-purple-700">
-                        Log in
-                    </h1>
-                    <form className="mt-6" onSubmit={handleSubmit}>
-                        <div className="mb-2">
-                            <label htmlFor="email" className="block text-sm font-semibold text-gray-800">
-                                Email
-                            </label>
-                            <input value={credentials.email} onChange={onChange} id='email' name='email' type="email" className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" required />
-                        </div>
-                        <div className="mb-2">
-                            <label htmlFor="password" className="block text-sm font-semibold text-gray-800">
-                                Password
-                            </label>
-                            <input value={credentials.password} onChange={onChange} id='password' name='password' type="password" className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40" required />
-                        </div>
-                        <a href="#" className="text-xs text-purple-600 hover:underline">
-                            Forget Password?
-                        </a>
-                        <div className="mt-6">
-                            <button type='submit' className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
-                                Login
-                            </button>
-                        </div>
-                    </form>
-                    <p className="mt-8 text-xs font-light text-center text-gray-700">
-                        {" "}
-                        Don't have an account?{" "}
-                        <Link to="/signup" className="font-medium text-purple-600 hover:underline">
-                            Sign up
-                        </Link>
+        <main className="bg-gray-50 min-h-screen flex items-center justify-center px-4">
+            <div className="w-full max-w-md">
+                <div className="mb-6 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border border-gray-200 overflow-hidden">
+                        <img
+                            src={logo}
+                            alt="NoteMania logo"
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
+                    <h1 className="mt-3 text-2xl font-bold text-gray-900">Sign in to NoteMania</h1>
+                    <p className="mt-1 text-sm text-gray-500">
+                        Continue where you left off with your notes.
                     </p>
                 </div>
+                <div className="bg-white rounded-2xl shadow-md border border-gray-100 px-6 py-6">
+                    <form className="space-y-4" onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                Email
+                            </label>
+                            <input
+                                value={credentials.email}
+                                onChange={onChange}
+                                id="email"
+                                name="email"
+                                type="email"
+                                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                Password
+                            </label>
+                            <input
+                                value={credentials.password}
+                                onChange={onChange}
+                                id="password"
+                                name="password"
+                                type="password"
+                                className="mt-1 block w-full px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                required
+                            />
+                        </div>
+                        <div className="flex items-center justify-between text-xs">
+                            <span className="text-gray-400">Use the password you signed up with.</span>
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full inline-flex justify-center items-center px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            Login
+                        </button>
+                    </form>
+                </div>
+                <p className="mt-4 text-xs text-center text-gray-500">
+                    Don&apos;t have an account?{" "}
+                    <Link to="/signup" className="font-medium text-blue-600 hover:underline">
+                        Sign up
+                    </Link>
+                </p>
             </div>
         </main>
     )

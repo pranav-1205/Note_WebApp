@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Deployment / Build folders
+build/
+dist/
+
+# Coverage reports (if you run tests)
+coverage/

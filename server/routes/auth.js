@@ -63,13 +63,13 @@ router.post("/login", [
     // console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.send.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
 
     try {
         const { email, password } = req.body;
         let user = await User.findOne({ email });
-        if (!email) {
+        if (!user) {
             success = false
             return res.status(400).json({ success, error: "Please try to login with correct creditentials" });
         }
